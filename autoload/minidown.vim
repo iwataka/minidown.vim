@@ -23,9 +23,9 @@ endif
 
 fu! minidown#preview(...)
   if a:0 > 0
-    call s:previwe(a:000)
+    call s:preview(a:000)
   else
-    let fname = fnamemodify(expand('%'), ':p')
+    let fname = expand('%')
     call s:preview(fname)
   endif
 endfu
@@ -36,16 +36,17 @@ fu! s:preview(src)
     return
   endif
   if type(a:src) == type('')
+    let src = expand(a:src)
     if has('python')
-      call s:preview_python(a:src)
+      call s:preview_python(src)
     elseif has('ruby')
-      call s:preview_ruby(a:src)
+      call s:preview_ruby(src)
     else
       echoe 'Mini-markdown requires ruby or python interface!'
     endif
   elseif type(a:src) == type([])
     for s in a:src
-      call minidown#preview(s)
+      call s:preview(s)
     endfor
   endif
 endfu
