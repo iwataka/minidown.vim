@@ -1,1 +1,1 @@
-com! -nargs=* -complete=file MiniMarkdown :call minidown#preview(<f-args>)
+com! -nargs=* -complete=file Minidown :call minidown#preview(<f-args>)
