@@ -10,3 +10,4 @@ Just run `:Minidown` command.
 
 + [pandoc](https://github.com/jgm/pandoc)
 + xdg-open (if you use Linux)
++ Vim compiled with +python or +ruby

@@ -1,0 +1,17 @@
+*minidown.txt* Minimalist markdown preview
+
+*Commands*                                *minidown-commands*
+
+:Minidown [files]             Open the previews of given files in your primary
+                              browser.
+
+:Minidown                     Open the preview of the current buffer in your
+                              primary browser.
+
+*Requirements*                            *minidown-requirements*
+
+You should install pandoc command and xdg-open if you use Linux. Also your Vim
+must be compiled with +python or +ruby.
+
+
+vim:ft=help
