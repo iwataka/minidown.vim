@@ -1,94 +1,60 @@
-if exists('g:minidown_loaded') && g:minidown_loaded
-  finish
+let s:save_cpo = &cpoptions
+set cpoptions&vim
+
+if !exists('g:minidown_auto_compile')
+  let g:minidown_auto_compile = 1
 endif
 
-if !exists('g:minidown_sleep_time')
-  " The unit of this is second.
-  let g:minidown_sleep_time = 1
+if !exists('g:minidown_open_cmd')
+  if has('unix')
+    let g:minidown_open_cmd = 'xdg-open'
+  elsei has('win32unix')
+    let g:minidown_open_cmd = 'cygstart'
+  elsei has('win32')
+    let g:minidown_open_cmd = 'start'
+  elsei has('mac')
+    let g:minidown_open_cmd = 'open'
+  endif
 endif
 
-if !exists('g:minidown_tmp_dir')
-  let g:minidown_tmp_dir = '/tmp/'
+if !exists('g:minidown_css')
+  let g:minidown_css = expand(expand('<sfile>:p:h:h').'/css/github.css')
 endif
 
-if has('unix')
-  let s:open_cmd = 'xdg-open'
-elsei has('win32unix')
-  let s:open_cmd = 'cygstart'
-elsei has('win32') || has('win64')
-  let s:open_cmd = 'start'
-elsei has('mac')
-  let s:open_cmd = 'open'
+if !exists('g:minidown_from')
+  let g:minidown_from = 'markdown_github-hard_line_breaks'
 endif
 
-fu! minidown#preview(...)
-  if a:0 > 0
-    call s:preview(a:000)
-  else
-    let fname = expand('%')
-    call s:preview(fname)
+if !exists('g:minidown_to')
+  let g:minidown_to = 'html5'
+endif
+
+fu! minidown#preview() abort
+  call minidown#compile()
+  call system(g:minidown_open_cmd.' '.b:minidown_dest)
+  if g:minidown_auto_compile
+    autocmd! minidown * <buffer>
+    autocmd minidown BufWritePost <buffer> call minidown#compile()
   endif
 endfu
 
-fu! s:preview(src)
+fu! minidown#compile() abort
   if !executable('pandoc')
-    echoe 'Mini-markdown requires pandoc command!'
-    return
+    throw 'Install pandoc and put it on your PATH'
   endif
-  if type(a:src) == type('')
-    let src = expand(a:src)
-    if has('python')
-      call s:preview_python(src)
-    elseif has('ruby')
-      call s:preview_ruby(src)
-    else
-      echoe 'Mini-markdown requires ruby or python interface!'
-    endif
-  elseif type(a:src) == type([])
-    for s in a:src
-      call s:preview(s)
-    endfor
-  endif
+  let fname = fnamemodify(expand('%'), ':p')
+  let b:minidown_dest = exists('b:minidown_dest') ? b:minidown_dest : s:temp_html()
+  let cmd = 'pandoc -s -f '.g:minidown_from.' -t '.g:minidown_to.' -c '.g:minidown_css.' -o '.b:minidown_dest
+  call system(cmd.' '.fname)
 endfu
 
-function! s:preview_ruby(src)
-ruby << EOF
-require 'tempfile'
-tmp_dir = VIM::evaluate('g:minidown_tmp_dir')
-file = Tempfile.new(['output', '.html'], tmp_dir)
-begin
-  src = VIM::evaluate('a:src')
-  path = file.path
-  open_cmd = VIM::evaluate('s:open_cmd')
-  system("pandoc #{src} -o #{path}")
-  system("#{open_cmd} #{path}")
-  VIM.command('redraw!')
-  sleep_time = VIM::evaluate('g:minidown_sleep_time')
-  sleep(sleep_time)
-ensure
-  file.close
-  file.unlink
-end
-EOF
-endfunction
-
-fu! s:preview_python(src)
-py << EOF
-import tempfile
-import time
-from subprocess import call
-tmp_dir = vim.eval('g:minidown_tmp_dir')
-file = tempfile.NamedTemporaryFile(suffix = '.html', dir = tmp_dir)
-try:
-  src = vim.eval('a:src')
-  path = file.name
-  open_cmd = vim.eval('s:open_cmd')
-  call(["pandoc", src, "-o", path])
-  call([open_cmd, path])
-  vim.command('redraw!')
-  sleep_time = vim.eval('g:minidown_sleep_time')
-  time.sleep(float(sleep_time))
-finally:
-  file.close()
-EOF
+fu! s:temp_html()
+  let result = ''
+  while empty(result) || filereadable(result)
+    let result = tempname().'.html'
+  endwhile
+  return result
 endfu
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
