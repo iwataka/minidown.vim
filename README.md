@@ -18,3 +18,8 @@ the content - but you really need it ?
 
 Just run `:Minidown` command on your preferred markdown buffer and you can see
 its content on your primary browser.
+
+## Credit
+
+Thanks to [andyferra](https://gist.github.com/andyferra/2554919), the default
+css in Minidown is largely based on it.
