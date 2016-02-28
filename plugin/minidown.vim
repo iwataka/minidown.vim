@@ -3,12 +3,45 @@ if &compatible || (exists('g:loaded_minidown') && g:loaded_minidown)
 endif
 let g:loaded_minidown = 1
 
+if !exists('g:minidown_auto_compile')
+  let g:minidown_auto_compile = 1
+endif
+
+if !exists('g:minidown_open_cmd')
+  if has('unix')
+    let g:minidown_open_cmd = 'xdg-open'
+  elsei has('win32unix')
+    let g:minidown_open_cmd = 'cygstart'
+  elsei has('win32')
+    let g:minidown_open_cmd = 'start'
+  elsei has('mac')
+    let g:minidown_open_cmd = 'open'
+  endif
+endif
+
+if !exists('g:minidown_css')
+  let g:minidown_css = expand(expand('<sfile>:p:h:h').'/css/github.css')
+endif
+
+if !exists('g:minidown_from')
+  let g:minidown_from = {
+        \ 'markdown': 'markdown_github-hard_line_breaks',
+        \ 'rst': 'rst'
+        \ }
+endif
+
+if !exists('g:minidown_to')
+  let g:minidown_to = 'html5'
+endif
+
 fu! s:setup()
-  command! -buffer -complete=file Minidown call minidown#preview()
-  command! -buffer -complete=file MinidownCompile call minidown#compile()
+  command! -buffer Minidown call minidown#preview()
+  command! -buffer MinidownCompile call minidown#compile()
 endfu
 
 augroup minidown
   autocmd!
-  autocmd FileType markdown call s:setup()
+  for k in keys(g:minidown_from)
+    exe 'autocmd FileType '.k.' call s:setup()'
+  endfor
 augroup END

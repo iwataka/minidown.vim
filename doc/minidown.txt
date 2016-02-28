@@ -1,4 +1,4 @@
-*minidown.txt* Minimalist markdown previewer
+*minidown.txt* Minimalist markup language previewer
 *minidown*
 
 ==============================================================================
@@ -12,16 +12,17 @@ TOC                                                          *minidown-contents*
 ==============================================================================
 INTRO                                                           *minidown-intro*
 
-Minidown is a markdown previewer for minimalists. This doesn't require complex
-settings but only pandoc on your PATH. This doesn't have live-preview feature
-and you should reload the browser page manually to update the content - but
-you really need it ?
+Minidown is a markup language previewer for minimalists. This doesn't require
+complex settings but only pandoc on your PATH. This doesn't have live-preview
+feature and you should reload the browser page manually to update the content
+- but you really need it ?
 
 ==============================================================================
 USAGE                                                           *minidown-usage*
 
-Just run :Minidown command on your preferred markdown buffer. You should
-install pandoc command (and xdg-open if you use Linux).
+Just run :Minidown command on your preferred buffer. You should install pandoc
+command (and xdg-open if you use Linux). Currently supports `markdown` and
+`rst`.
 
 ==============================================================================
 OPTIONS                                                       *minidown-options*
@@ -42,9 +43,9 @@ when saving.
     let g:minidown_open_cmd = 'open' (on OSX)
 <
 
-Minidown uses this value to open html files converted from the markdown buffers.
-In most cases, you don't have to set this manually because Minidown will
-automatically set appropriate value to this variable.
+Minidown uses this value to open html files converted from the markup language
+buffers. In most cases, you don't have to set this manually because Minidown
+will automatically set appropriate value to this variable.
 
 ------------------------------------------------------------------------------
                                                                 *g:minidown_css*
@@ -59,11 +60,14 @@ specify your own css to change the appearance of preview pages.
 ------------------------------------------------------------------------------
                                                                *g:minidown_from*
 >
-    let g:minidown_from = 'markdown_github-hard_line_breaks'
+    let g:minidown_from = {
+          \ 'markdown': 'markdown_github-hard_line_breaks',
+          \ 'rst': 'rst'
+          \ }
 <
 
-This value specify the type of the markdown file to be converted. By default,
-Minidown treat the markdown files as github-flavored markdown.
+This value specify the type of the markup language file to be converted. By
+default, Minidown treat the markdown files as github-flavored markdown.
 
 ------------------------------------------------------------------------------
                                                                  *g:minidown_to*
@@ -73,7 +77,7 @@ Minidown treat the markdown files as github-flavored markdown.
 <
 
 This value specify the type of the resultant html file. By default, Minidown
-converts markdown files into html5.
+converts markup language files into html5.
 
 ==============================================================================
 COMMAND                                                      *minidown-commands*
@@ -81,16 +85,16 @@ COMMAND                                                      *minidown-commands*
 >
     :Minidown
 <
-Open the preview page of the current markdown buffer in your primary browser.
+Open the preview page of the current buffer in your primary browser.
 
 ------------------------------------------------------------------------------
                                                      *minidown-:MinidownCompile*
 >
     :MinidownCompile
 <
-Compile the current markdown buffer by using pandoc. If you set non-zero value
-to g:minidown_auto_compile (or do nothing to it), Minidown will automatically
-run this command when saving, so you don't have to run this command.
+Compile the current buffer by using pandoc. If you set non-zero value to
+g:minidown_auto_compile (or do nothing to it), Minidown will automatically run
+this command when saving, so you don't have to run this command.
 
 ==============================================================================
 vim:ft=help:tw=78

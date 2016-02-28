@@ -1,10 +1,10 @@
 # Minidown
 
-Minimalist markdown previwer
+Minimalist markup language previwer
 
 ## Introduction
 
-Minidown is a markdown previewer for minimalists. This doesn't require complex
+Minidown is a markup language previewer for minimalists. This doesn't require complex
 settings but only [pandoc](http://pandoc.org/) on your PATH. This doesn't have
 live-preview feature and you should reload the browser page manually to update
 the content - but you really need it ?
@@ -16,8 +16,8 @@ the content - but you really need it ?
 
 ## Usage
 
-Just run `:Minidown` command on your preferred markdown buffer and you can see
-its content on your primary browser.
+Just run `:Minidown` command on your preferred buffer and you can see its
+content on your primary browser.
 
 ## Credit
 
