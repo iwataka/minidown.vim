@@ -79,6 +79,16 @@ default, Minidown treat the markdown files as github-flavored markdown.
 This value specify the type of the resultant html file. By default, Minidown
 converts markup language files into html5.
 
+------------------------------------------------------------------------------
+                                                         *g:minidown_enable_toc*
+
+>
+    let g:minidown_enable_toc = 1
+<
+
+If this value equals to 1, pandoc automatically generate the table of contents
+for your preferred file.
+
 ==============================================================================
 COMMAND                                                      *minidown-commands*
                                                             *minidown-:Minidown*
