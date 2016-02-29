@@ -4,10 +4,6 @@ set cpoptions&vim
 fu! minidown#preview() abort
   call minidown#compile()
   call system(g:minidown_open_cmd.' '.b:minidown_dest)
-  if g:minidown_auto_compile
-    autocmd! minidown BufWritePost <buffer>
-    autocmd minidown BufWritePost <buffer> call minidown#compile()
-  endif
 endfu
 
 fu! minidown#compile() abort
@@ -28,6 +24,10 @@ fu! minidown#compile() abort
     let args .= '--toc'
   endif
   call system(cmd.' '.args.' '.fname)
+  if g:minidown_auto_compile
+    autocmd! minidown BufWritePost <buffer>
+    autocmd minidown BufWritePost <buffer> call minidown#compile()
+  endif
 endfu
 
 fu! s:set_dest() abort
