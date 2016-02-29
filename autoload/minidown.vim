@@ -23,7 +23,11 @@ fu! minidown#compile() abort
         \ ' -t '.g:minidown_to.
         \ ' -c '.g:minidown_css.
         \ ' -o '.b:minidown_dest
-  call system(cmd.' '.fname)
+  let args = ''
+  if g:minidown_enable_toc
+    let args .= '--toc'
+  endif
+  call system(cmd.' '.args.' '.fname)
 endfu
 
 fu! s:set_dest() abort

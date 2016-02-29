@@ -34,6 +34,10 @@ if !exists('g:minidown_to')
   let g:minidown_to = 'html5'
 endif
 
+if !exists('g:minidown_enable_toc')
+  let g:minidown_enable_toc = 1
+endif
+
 fu! s:setup()
   command! -buffer Minidown call minidown#preview()
   command! -buffer MinidownCompile call minidown#compile()
