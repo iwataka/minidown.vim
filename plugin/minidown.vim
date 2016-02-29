@@ -13,7 +13,7 @@ if !exists('g:minidown_open_cmd')
   elsei has('win32unix')
     let g:minidown_open_cmd = 'cygstart'
   elsei has('win32')
-    let g:minidown_open_cmd = 'start'
+    let g:minidown_open_cmd = 'rundll32 url.dll,FileProtocolHandler'
   elsei has('mac')
     let g:minidown_open_cmd = 'open'
   endif

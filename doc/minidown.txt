@@ -39,7 +39,7 @@ when saving.
 >
     let g:minidown_open_cmd = 'xdg-open' (on Unix)
     let g:minidown_open_cmd = 'cygstart' (on Cygwin)
-    let g:minidown_open_cmd = 'start' (on Windows)
+    let g:minidown_open_cmd = 'rundll32 url.dll,FileProtocolHandler' (on Windows)
     let g:minidown_open_cmd = 'open' (on OSX)
 <
 
