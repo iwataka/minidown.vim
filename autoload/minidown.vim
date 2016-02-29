@@ -26,13 +26,17 @@ fu! minidown#compile() abort
   call system(cmd.' '.fname)
 endfu
 
-fu! s:set_dest()
-  autocmd! minidown BufDelete,VimLeave <buffer>
-  autocmd minidown BufDelete,VimLeave <buffer> 
+fu! s:set_dest() abort
+  let dest = expand('%:p:r').'.html'
+  if filereadable(dest)
+    throw dest.' already exists!'
+  endif
+  autocmd! minidown BufLeave,VimLeave <buffer>
+  autocmd minidown BufLeave,VimLeave <buffer> 
         \ if exists('b:minidown_dest') |
         \   call delete(b:minidown_dest) |
         \ endif
-  let b:minidown_dest = expand('%:p:r').'.html'
+  let b:minidown_dest = dest
 endfu
 
 let &cpo = s:save_cpo
