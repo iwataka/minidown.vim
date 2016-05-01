@@ -8,14 +8,14 @@ if !exists('g:minidown_auto_compile')
 endif
 
 if !exists('g:minidown_open_cmd')
-  if has('unix')
-    let g:minidown_open_cmd = 'xdg-open'
-  elsei has('win32unix')
-    let g:minidown_open_cmd = 'cygstart'
-  elsei has('win32')
-    let g:minidown_open_cmd = 'rundll32 url.dll,FileProtocolHandler'
-  elsei has('mac')
+  if has('mac')
     let g:minidown_open_cmd = 'open'
+  elseif has('win32unix') && executable('cygstart')
+    let g:minidown_open_cmd = 'cygstart'
+  elseif has('unix')
+    let g:minidown_open_cmd = 'xdg-open'
+  elseif has('win32')
+    let g:minidown_open_cmd = 'rundll32 url.dll,FileProtocolHandler'
   endif
 endif
 
