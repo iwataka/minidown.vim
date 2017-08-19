@@ -7,8 +7,17 @@ if !exists('g:minidown_auto_compile')
   let g:minidown_auto_compile = 1
 endif
 
+fu! s:is_mac()
+  let result = has('mac') || has('macunix')
+  if !result || has('unix')
+    let os = substitute(system('uname'), '\n', '', '')
+    let result = result || os == 'Darwin' || os == 'Mac'
+  endif
+  return result
+endfu
+
 if !exists('g:minidown_open_cmd')
-  if has('mac')
+  if s:is_mac()
     let g:minidown_open_cmd = 'open'
   elseif has('win32unix') && executable('cygstart')
     let g:minidown_open_cmd = 'cygstart'
