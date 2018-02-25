@@ -10,15 +10,15 @@ fu! minidown#compile() abort
   if !executable('pandoc')
     throw 'Install pandoc and put it on your PATH'
   endif
-  let fname = fnamemodify(expand('%'), ':p')
+  let fname = '"'.fnamemodify(expand('%'), ':p').'"'
   if !exists('b:minidown_dest')
     call s:set_dest()
   endif
   let cmd = 'pandoc -s'.
         \ ' -f '.g:minidown_from[&ft].
         \ ' -t '.g:minidown_to.
-        \ ' -c '.g:minidown_css.
-        \ ' -o '.b:minidown_dest
+        \ ' -c '.'"'.g:minidown_css.'"'.
+        \ ' -o '.'"'.b:minidown_dest.'"'
   let args = ''
   if g:minidown_enable_toc
     let args .= '--toc'
@@ -36,7 +36,7 @@ fu! s:set_dest() abort
     throw dest.' already exists!'
   endif
   autocmd! minidown BufLeave,VimLeave <buffer>
-  autocmd minidown BufLeave,VimLeave <buffer> 
+  autocmd minidown BufLeave,VimLeave <buffer>
         \ if exists('b:minidown_dest') |
         \   call delete(b:minidown_dest) |
         \ endif
