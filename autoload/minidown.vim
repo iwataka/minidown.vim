@@ -3,7 +3,7 @@ set cpoptions&vim
 
 fu! minidown#preview() abort
   call minidown#compile()
-  call system(g:minidown_open_cmd.' '.b:minidown_dest)
+  call system(printf('%s "%s"', g:minidown_open_cmd, b:minidown_dest))
 endfu
 
 fu! minidown#compile() abort
@@ -14,16 +14,17 @@ fu! minidown#compile() abort
   if !exists('b:minidown_dest')
     call s:set_dest()
   endif
-  let cmd = 'pandoc -s'.
-        \ ' -f '.g:minidown_from[&ft].
-        \ ' -t '.g:minidown_to.
-        \ ' -c '.g:minidown_css.
-        \ ' -o '.b:minidown_dest
+  let cmd = printf(
+        \ 'pandoc -s -f %s -t %s -c "%s" -o "%s"',
+        \ g:minidown_from[&ft],
+        \ g:minidown_to,
+        \ g:minidown_css,
+        \ b:minidown_dest)
   let args = ''
   if g:minidown_enable_toc
     let args .= '--toc'
   endif
-  call system(cmd.' '.args.' '.fname)
+  call system(printf('%s %s "%s"', cmd, args, fname))
   if g:minidown_auto_compile
     autocmd! minidown BufWritePost <buffer>
     autocmd minidown BufWritePost <buffer> call minidown#compile()
