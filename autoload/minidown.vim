@@ -3,7 +3,7 @@ set cpoptions&vim
 
 fu! minidown#preview() abort
   call minidown#compile()
-  call system(printf('%s "%s"', g:minidown_open_cmd, b:minidown_dest))
+  call system(printf(g:minidown_open_cmd, b:minidown_dest))
 endfu
 
 fu! minidown#compile() abort

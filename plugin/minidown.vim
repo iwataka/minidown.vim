@@ -18,13 +18,16 @@ endfu
 
 if !exists('g:minidown_open_cmd')
   if s:is_mac()
-    let g:minidown_open_cmd = 'open'
+    let g:minidown_open_cmd = 'open "%s"'
   elseif has('win32unix') && executable('cygstart')
-    let g:minidown_open_cmd = 'cygstart'
+    let g:minidown_open_cmd = 'cygstart "%s"'
   elseif has('unix')
-    let g:minidown_open_cmd = 'xdg-open'
+    let g:minidown_open_cmd = 'xdg-open "%s"'
   elseif has('win32')
-    let g:minidown_open_cmd = 'rundll32 url.dll,FileProtocolHandler'
+    " Somewhat this command doesn't need file names double-quoted.
+    " Although This is working properly, I'm still investigating about this
+    " reason.
+    let g:minidown_open_cmd = 'rundll32 url.dll,FileProtocolHandler %s'
   endif
 endif
 
