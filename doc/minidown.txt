@@ -13,8 +13,9 @@ TOC                                                          *minidown-contents*
 INTRO                                                           *minidown-intro*
 
 Minidown is a markup language previewer for minimalists. This doesn't require
-complex settings but only pandoc on your PATH. This doesn't have live-preview
-feature and you should reload the browser page manually to update the content
+complex settings but only pandoc (and asciidoctor for AsciiDoc) on your PATH.
+This doesn't have live-preview feature and you should reload the browser page
+manually to update the content
 - but you really need it ?
 
 ==============================================================================
@@ -48,19 +49,19 @@ buffers. In most cases, you don't have to set this manually because Minidown
 will automatically set appropriate value to this variable.
 
 ------------------------------------------------------------------------------
-                                                                *g:minidown_css*
+                                                          *g:minidown_pandoc_css*
 
 >
-    let g:minidown_css = expand(expand('<sfile>:p:h:h').'/css/github.css')
+    let g:minidown_pandoc_css = expand(expand('<sfile>:p:h:h').'/css/github.css')
 <
 
 Minidown contains the default css which imitates GitHub theme, but you can
 specify your own css to change the appearance of preview pages.
 
 ------------------------------------------------------------------------------
-                                                               *g:minidown_from*
+                                                         *g:minidown_pandoc_from*
 >
-    let g:minidown_from = {
+    let g:minidown_pandoc_from = {
           \ 'markdown': 'markdown_github-hard_line_breaks',
           \ 'rst': 'rst'
           \ }
@@ -70,20 +71,20 @@ This value specify the type of the markup language file to be converted. By
 default, Minidown treat the markdown files as github-flavored markdown.
 
 ------------------------------------------------------------------------------
-                                                                 *g:minidown_to*
+                                                           *g:minidown_pandoc_to*
 
 >
-    let g:minidown_to = 'html5'
+    let g:minidown_pandoc_to = 'html5'
 <
 
 This value specify the type of the resultant html file. By default, Minidown
 converts markup language files into html5.
 
 ------------------------------------------------------------------------------
-                                                         *g:minidown_enable_toc*
+                                                   *g:minidown_pandoc_enable_toc*
 
 >
-    let g:minidown_enable_toc = 1
+    let g:minidown_pandoc_enable_toc = 1
 <
 
 If this value equals to 1, pandoc automatically generate the table of contents

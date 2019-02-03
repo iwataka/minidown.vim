@@ -31,23 +31,23 @@ if !exists('g:minidown_open_cmd')
   endif
 endif
 
-if !exists('g:minidown_css')
-  let g:minidown_css = expand(expand('<sfile>:p:h:h').'/css/github.css')
+if !exists('g:minidown_pandoc_css')
+  let g:minidown_pandoc_css = expand(expand('<sfile>:p:h:h').'/css/github.css')
 endif
 
-if !exists('g:minidown_from')
-  let g:minidown_from = {
+if !exists('g:minidown_pandoc_from')
+  let g:minidown_pandoc_from = {
         \ 'markdown': 'markdown_github-hard_line_breaks',
         \ 'rst': 'rst'
         \ }
 endif
 
-if !exists('g:minidown_to')
-  let g:minidown_to = 'html5'
+if !exists('g:minidown_pandoc_to')
+  let g:minidown_pandoc_to = 'html5'
 endif
 
-if !exists('g:minidown_enable_toc')
-  let g:minidown_enable_toc = 1
+if !exists('g:minidown_pandoc_enable_toc')
+  let g:minidown_pandoc_enable_toc = 1
 endif
 
 fu! s:setup()
@@ -57,7 +57,8 @@ endfu
 
 augroup minidown
   autocmd!
-  for k in keys(g:minidown_from)
+  for k in keys(g:minidown_pandoc_from)
     exe 'autocmd FileType '.k.' call s:setup()'
   endfor
+  autocmd FileType asciidoc call s:setup()
 augroup END

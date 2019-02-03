@@ -7,24 +7,47 @@ fu! minidown#preview() abort
 endfu
 
 fu! minidown#compile() abort
-  if !executable('pandoc')
-    throw 'Install pandoc and put it on your PATH'
+  if &filetype == 'asciidoc'
+    call s:asciidoctor_compile()
+  else
+    call s:pandoc_compile()
   endif
+  call s:post_compile()
+endfu
+
+fu! s:asciidoctor_compile() abort
+  let executable = 'asciidoctor'
+  call s:pre_compile_for_executable(executable)
   let fname = fnamemodify(expand('%'), ':p')
-  if !exists('b:minidown_dest')
-    call s:set_dest()
-  endif
+  call system(printf('%s "%s"', executable, fname))
+endfu
+
+fu! s:pandoc_compile() abort
+  call s:pre_compile_for_executable('pandoc')
+  let fname = fnamemodify(expand('%'), ':p')
   let cmd = printf(
         \ 'pandoc -s -f %s -t %s -c "%s" -o "%s"',
-        \ g:minidown_from[&ft],
-        \ g:minidown_to,
-        \ g:minidown_css,
+        \ g:minidown_pandoc_from[&ft],
+        \ g:minidown_pandoc_to,
+        \ g:minidown_pandoc_css,
         \ b:minidown_dest)
   let args = ''
-  if g:minidown_enable_toc
+  if g:minidown_pandoc_enable_toc
     let args .= '--toc'
   endif
   call system(printf('%s %s "%s"', cmd, args, fname))
+endfu
+
+fu! s:pre_compile_for_executable(exe) abort
+  if !executable(a:exe)
+    throw printf('Install %s and put it on your PATH', a:exe)
+  endif
+  if !exists('b:minidown_dest')
+    call s:set_dest()
+  endif
+endfu
+
+fu! s:post_compile() abort
   if g:minidown_auto_compile
     autocmd! minidown BufWritePost <buffer>
     autocmd minidown BufWritePost <buffer> call minidown#compile()

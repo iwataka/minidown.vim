@@ -4,15 +4,17 @@ Minimalist markup language previwer
 
 ## Introduction
 
-Minidown is a markup language previewer for minimalists. This doesn't require complex
-settings but only [pandoc](http://pandoc.org/) on your PATH. This doesn't have
-live-preview feature and you should reload the browser page manually to update
-the content - but you really need it ?
+Minidown is a markup language previewer for minimalists. This doesn't require
+complex settings but only [pandoc](http://pandoc.org/)
+(and [asciidoctor](https://asciidoctor.org/) for AsciiDoc) on your PATH. This
+doesn't have live-preview feature and you should reload the browser page
+manually to update the content - but you really need it ?
 
 ## Requirements
 
 + [pandoc](http://pandoc.org/)
-+ xdg-open (if you use Linux)
++ [asciidoctor](https://asciidoctor.org/) (if you write AsciiDoc)
++ xdg-open (if you are on Linux)
 
 ## Usage
 
