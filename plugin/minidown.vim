@@ -50,6 +50,14 @@ if !exists('g:minidown_pandoc_enable_toc')
   let g:minidown_pandoc_enable_toc = 1
 endif
 
+if !exists('g:minidown_plantuml_to')
+  let g:minidown_plantuml_to = 'png'
+endif
+
+if !exists('g:minidown_plantuml_jar_version')
+  let g:minidown_plantuml_jar_version = '8059'
+endif
+
 fu! s:setup()
   command! -buffer Minidown call minidown#preview()
   command! -buffer MinidownCompile call minidown#compile()
@@ -60,5 +68,5 @@ augroup minidown
   for k in keys(g:minidown_pandoc_from)
     exe 'autocmd FileType '.k.' call s:setup()'
   endfor
-  autocmd FileType asciidoc call s:setup()
+  autocmd FileType asciidoc,plantuml call s:setup()
 augroup END

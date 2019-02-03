@@ -13,10 +13,10 @@ TOC                                                          *minidown-contents*
 INTRO                                                           *minidown-intro*
 
 Minidown is a markup language previewer for minimalists. This doesn't require
-complex settings but only pandoc (and asciidoctor for AsciiDoc) on your PATH.
-This doesn't have live-preview feature and you should reload the browser page
-manually to update the content
-- but you really need it ?
+complex settings but only pandoc (and other processors for some document
+formats) on your PATH. This doesn't have live-preview feature and you should
+reload the browser page manually to update the content - but you really need
+it ?
 
 ==============================================================================
 USAGE                                                           *minidown-usage*
@@ -77,8 +77,8 @@ default, Minidown treat the markdown files as github-flavored markdown.
     let g:minidown_pandoc_to = 'html5'
 <
 
-This value specify the type of the resultant html file. By default, Minidown
-converts markup language files into html5.
+This value specify the type of the pandoc output. By default, Minidown converts
+markup language files into html5.
 
 ------------------------------------------------------------------------------
                                                    *g:minidown_pandoc_enable_toc*
@@ -89,6 +89,25 @@ converts markup language files into html5.
 
 If this value equals to 1, pandoc automatically generate the table of contents
 for your preferred file.
+
+------------------------------------------------------------------------------
+                                                         *g:minidown_plantuml_to*
+
+>
+    let g:minidown_plantuml_to = 'png'
+<
+
+This value specify the type of the plantuml output.
+
+------------------------------------------------------------------------------
+                                                *g:minidown_plantuml_jar_version*
+
+>
+    let g:minidown_plantuml_jar_version = '8059'
+<
+
+This value specify the version of the plantuml jar on Maven Repository
+(https://mvnrepository.com).
 
 ==============================================================================
 COMMAND                                                      *minidown-commands*
