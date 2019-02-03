@@ -75,8 +75,8 @@ endfu
 
 fu! s:post_compile() abort
   if g:minidown_auto_compile
-    autocmd! minidown BufWritePost <buffer>
-    autocmd minidown BufWritePost <buffer> call minidown#compile()
+    autocmd! minidown BufEnter,BufWritePost <buffer>
+    autocmd minidown BufEnter,BufWritePost <buffer> call minidown#compile()
   endif
 endfu
 
