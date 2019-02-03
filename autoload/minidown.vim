@@ -100,13 +100,16 @@ fu! s:download_plantuml_jar(version) abort
         \ 'http://central.maven.org/maven2/net/sourceforge/plantuml/plantuml/%s/plantuml-%s.jar',
         \ a:version,
         \ a:version)
-  " TODO: curl-independent download
   if executable('curl')
     let cmd = printf('curl -fL %s -o %s', url, s:plantuml_jar_path)
-    call s:run_cmd(cmd)
+  elseif executable('wget')
+    let cmd = printf('wget %s -O %s', url, s:plantuml_jar_path)
+  elseif executable('powershell')
+    let cmd = printf('powershell -Command "& {Invoke-WebRequest -Uri %s -OutFile %s}"', url, s:plantuml_jar_path)
   else
     throw printf('Download %s and place it to %s', url, s:plantuml_jar_path)
   endif
+  call s:run_cmd(cmd)
 endfu
 
 " TODO: Asynchronous execution
