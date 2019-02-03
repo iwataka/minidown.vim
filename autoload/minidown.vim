@@ -3,7 +3,7 @@ set cpoptions&vim
 
 fu! minidown#preview() abort
   call minidown#compile()
-  call system(printf(g:minidown_open_cmd, b:minidown_dest))
+  call s:run_cmd(printf(g:minidown_open_cmd, b:minidown_dest))
 endfu
 
 fu! minidown#compile() abort
@@ -19,7 +19,7 @@ fu! s:asciidoctor_compile() abort
   let executable = 'asciidoctor'
   call s:pre_compile_for_executable(executable)
   let fname = fnamemodify(expand('%'), ':p')
-  call system(printf('%s "%s"', executable, fname))
+  call s:run_cmd(printf('%s "%s"', executable, fname))
 endfu
 
 fu! s:pandoc_compile() abort
@@ -35,7 +35,7 @@ fu! s:pandoc_compile() abort
   if g:minidown_pandoc_enable_toc
     let args .= '--toc'
   endif
-  call system(printf('%s %s "%s"', cmd, args, fname))
+  call s:run_cmd(printf('%s %s "%s"', cmd, args, fname))
 endfu
 
 fu! s:pre_compile_for_executable(exe) abort
@@ -65,6 +65,11 @@ fu! s:set_dest() abort
         \   call delete(b:minidown_dest) |
         \ endif
   let b:minidown_dest = dest
+endfu
+
+" TODO: Asynchronous execution
+fu! s:run_cmd(cmd) abort
+  call system(a:cmd)
 endfu
 
 let &cpo = s:save_cpo
