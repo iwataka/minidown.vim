@@ -38,7 +38,8 @@ endif
 if !exists('g:minidown_pandoc_from')
   let g:minidown_pandoc_from = {
         \ 'markdown': 'markdown_github-hard_line_breaks',
-        \ 'rst': 'rst'
+        \ 'rst': 'rst',
+        \ 'textile': 'textile'
         \ }
 endif
 
