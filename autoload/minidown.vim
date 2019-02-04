@@ -44,7 +44,7 @@ fu! s:asciidoc_compile() abort
   let executable = 'asciidoctor'
   call s:pre_compile_for_executable(executable, '.html', 0)
   let fname = fnamemodify(expand('%'), ':p')
-  call s:run_cmd(printf('%s "%s"', executable, fname))
+  call s:run_cmd(printf('%s -o %s "%s"', executable, b:minidown_dest, fname))
 endfu
 
 fu! s:plantuml_compile() abort
